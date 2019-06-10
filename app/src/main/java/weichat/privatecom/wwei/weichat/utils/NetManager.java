@@ -11,7 +11,7 @@ public class NetManager {
     private static NetManager netManager;
     private Retrofit retrofit;
     private RetrofitServer retrofitServer;
-    public static final String HOST = "http://192.168.0.108/";
+    public static final String HOST = "http://192.168.0.178:8080";
     private static final int DEFAULT_TIMEOUT = 15;
     public NetManager()
     {

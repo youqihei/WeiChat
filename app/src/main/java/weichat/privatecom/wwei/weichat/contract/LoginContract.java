@@ -13,7 +13,7 @@ public interface LoginContract {
 
   interface View extends BaseView
   {
-    void onSuccess(BaseObjectBean<LoginBean> response);
+    void onSuccess(LoginBean esponse);
   }
   interface  Presenter
   {

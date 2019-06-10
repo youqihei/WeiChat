@@ -1,5 +1,7 @@
 package weichat.privatecom.wwei.weichat.model;
 
+import android.util.Log;
+
 import io.reactivex.Observable;
 import weichat.privatecom.wwei.weichat.bean.BaseObjectBean;
 import weichat.privatecom.wwei.weichat.bean.LoginBean;

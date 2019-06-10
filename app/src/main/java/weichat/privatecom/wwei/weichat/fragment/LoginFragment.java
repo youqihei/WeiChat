@@ -2,7 +2,11 @@ package weichat.privatecom.wwei.weichat.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import weichat.privatecom.wwei.weichat.base.BaseFragment;
 import weichat.privatecom.wwei.weichat.R;
 import weichat.privatecom.wwei.weichat.bean.BaseObjectBean;
@@ -16,7 +20,9 @@ import weichat.privatecom.wwei.weichat.presenter.LoginPresenter;
 
 public class LoginFragment extends BaseFragment implements LoginContract.View{
     public static String LoginFragment = "login_fragment";
+    private  LoginPresenter loginPresenter;
     private String username;
+    private String password;
     public static BaseFragment newInstance(String username)
     {
             LoginFragment loginFragment = new LoginFragment();
@@ -25,6 +31,12 @@ public class LoginFragment extends BaseFragment implements LoginContract.View{
             loginFragment.setArguments(bundle);
             return loginFragment;
     }
+    @BindView(R.id.btn_login)
+    Button btn_login;
+    @BindView(R.id.et_username)
+    EditText et_username;
+    @BindView(R.id.et_password)
+    EditText et_password;
     @Override
     public void onCreate(Bundle saveInstanceState)
     {
@@ -36,8 +48,13 @@ public class LoginFragment extends BaseFragment implements LoginContract.View{
     }
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
-        LoginPresenter loginPresenter = new LoginPresenter(this);
+         loginPresenter = new LoginPresenter(this);
         loginPresenter.attachView(this);
+        initData();
+    }
+    protected  void initData()
+    {
+
     }
     //显示进度框
     @Override
@@ -52,19 +69,31 @@ public class LoginFragment extends BaseFragment implements LoginContract.View{
 
     }
     //请求数据失败
-   @Override
+    @Override
     public void onError(Throwable throwable)
-   {
+    {
 
-   }
+    }
     //请求数据成功
     @Override
-    public void onSuccess(BaseObjectBean<LoginBean> response)
+    public void onSuccess(LoginBean response)
     {
 
     }
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
+    }
+    @OnClick({R.id.btn_login})
+    public  void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.btn_login:
+                username = et_username.getText().toString();
+                password = et_password.getText().toString();
+                loginPresenter.login(username,password);
+                break;
+        }
     }
 }

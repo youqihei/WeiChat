@@ -1,6 +1,6 @@
 package weichat.privatecom.wwei.weichat.presenter;
 
-import io.reactivex.Observable;
+import weichat.privatecom.wwei.weichat.contract.LoginContract;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -10,6 +10,7 @@ import weichat.privatecom.wwei.weichat.bean.BaseObjectBean;
 import weichat.privatecom.wwei.weichat.bean.LoginBean;
 import weichat.privatecom.wwei.weichat.contract.LoginContract;
 import weichat.privatecom.wwei.weichat.model.LoginModel;
+import weichat.privatecom.wwei.weichat.utils.ResponseTransformer;
 
 public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter{
 
@@ -26,12 +27,12 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     @Override
     public void login(String username, String password) {
       model.login(username,password).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
-              subscribe(new Consumer<BaseObjectBean<LoginBean>>() {
+              compose(ResponseTransformer.<LoginBean>handleResult()).subscribe(new Consumer<LoginBean>() {
           @Override
-          public void accept(BaseObjectBean<LoginBean> loginBeanBaseObjectBean) throws Exception {
-              view.onSuccess(loginBeanBaseObjectBean);
+          public void accept(LoginBean loginBean) throws Exception {
+              view.onSuccess(loginBean);
           }
-      }, new Consumer<Throwable>() {
+    }, new Consumer<Throwable>() {
           @Override
           public void accept(Throwable throwable) throws Exception {
                 view.onError(throwable);
