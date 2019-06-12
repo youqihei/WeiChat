@@ -45,59 +45,14 @@ public class MainFragment extends BaseFragment {
           public void onClick(View v) {
               Intent intent = new Intent(getHodingActivity(), LoginActivity.class);
               Bundle data = new Bundle();
-              data.putString("name","wei");
+              data.putString("name","wwei");
               intent.putExtras(data);
               startActivityForResult(intent,0);
           }
       });
 
     }
-    public class TreeNode {
-      int val;
-      TreeNode left;
-      TreeNode right;
-      TreeNode(int x) { val = x; }
-  }
-   private int[] postorder ;
-    private int[] inorder;
-    private int postorderlength,inorderlength;
-    public TreeNode buildTree(int[] postorder, int[] inorder) {
-       if(postorder.length==0||inorder.length==0||postorder.length!=inorder.length)
-       {
-           return null;
-       }
-       this.postorder = postorder;
-       this.inorder = inorder;
-        postorderlength = postorder.length - 1;
-        inorderlength = inorder.length-1;
-       int post_start = 0;
-       int post_end = postorder.length-1;
-       int in_start = 0;
-       int in_end = inorder.length-1;
-        TreeNode result = buildtree(post_start,post_end,in_start,in_end);
-       return result;
-    }
-    public TreeNode buildtree(int post_start,int post_end,int in_start,int in_end)
-    {
-        if(post_start>post_end||in_start>in_end||post_start<0||in_start<0||post_start>postorderlength||in_start>inorderlength)
-        {
-            return null;
-        }
-        int  inordernum = postorder[post_end];
-      TreeNode cur = new TreeNode(inordernum);
-      int rightnum = 0;
-        for(int i=in_start;i<=in_end;i++)
-        {
-            if(inordernum==inorder[i])
-            {
-                rightnum = in_end-i;
-                break;
-            }
-        }
-        cur.right = buildtree(post_end-rightnum,post_end-1,in_end-rightnum+1,in_end);
-        cur.left = buildtree(post_start,post_end-rightnum-1,in_start,in_end-rightnum-1);
-        return cur;
-    }
+
     @Override
     protected int getLayoutId() {
 

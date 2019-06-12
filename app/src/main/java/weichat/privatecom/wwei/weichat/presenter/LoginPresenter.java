@@ -1,5 +1,7 @@
 package weichat.privatecom.wwei.weichat.presenter;
 
+import android.util.Log;
+
 import weichat.privatecom.wwei.weichat.contract.LoginContract;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;

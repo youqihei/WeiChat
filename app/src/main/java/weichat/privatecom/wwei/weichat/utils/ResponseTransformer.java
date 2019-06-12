@@ -53,7 +53,7 @@ public class ResponseTransformer {
         public ObservableSource<T> apply(BaseObjectBean<T> tResponse) throws Exception {
             String  code = tResponse.getStatus();
             String message = tResponse.getMessage();
-            if (code.equals(200)) {
+            if (code.equals("0")) {
                 return Observable.just(tResponse.getData());
             } else {
                 return Observable.error(new ApiException(Integer.parseInt(code), message));

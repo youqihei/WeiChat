@@ -1,6 +1,7 @@
 package weichat.privatecom.wwei.weichat.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import weichat.privatecom.wwei.weichat.bean.BaseObjectBean;
 import weichat.privatecom.wwei.weichat.bean.LoginBean;
 import weichat.privatecom.wwei.weichat.contract.LoginContract;
 import weichat.privatecom.wwei.weichat.presenter.LoginPresenter;
+import weichat.privatecom.wwei.weichat.utils.ToastUtil;
 
 /**
  * Created by Administrator on 2019/4/23.
@@ -72,12 +74,13 @@ public class LoginFragment extends BaseFragment implements LoginContract.View{
     @Override
     public void onError(Throwable throwable)
     {
-
+        ToastUtil.showToast(getActivity(),throwable.getMessage());
     }
     //请求数据成功
     @Override
     public void onSuccess(LoginBean response)
     {
+        ToastUtil.showToast(getActivity(),"登录成功");
 
     }
     @Override
@@ -92,6 +95,10 @@ public class LoginFragment extends BaseFragment implements LoginContract.View{
             case R.id.btn_login:
                 username = et_username.getText().toString();
                 password = et_password.getText().toString();
+                if("".equals(username)||"".equals(password))
+                {
+                    return;
+                }
                 loginPresenter.login(username,password);
                 break;
         }

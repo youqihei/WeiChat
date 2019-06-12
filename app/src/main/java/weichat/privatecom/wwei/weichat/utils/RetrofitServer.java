@@ -13,6 +13,6 @@ import weichat.privatecom.wwei.weichat.bean.LoginBean;
 
 public interface RetrofitServer {
   @FormUrlEncoded
-   @POST("/WeiChat/LoginCheck")
-   Observable<BaseObjectBean<LoginBean>> login(@Field("username") String name,@Field("password") String password);
+   @POST("/WeiChatWeb/LoginCheck")
+   Observable<BaseObjectBean<LoginBean>> login(@Field("name") String name,@Field("pwd") String password);
 }
