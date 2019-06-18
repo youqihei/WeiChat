@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:background="#f9f9f9">
+
+    <TextView
+        android:id="@+id/tb1"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:text="聊天"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_bottom"
+        app:layout_constraintRight_toLeftOf="@id/tb2" />
+    <TextView
+        android:id="@+id/tb2"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="通讯录"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_bottom"
+        app:layout_constraintRight_toRightOf="@id/tb3"
+        app:layout_constraintLeft_toRightOf="@id/tb1"
+        />
+    <TextView
+        android:id="@+id/tb3"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="发现"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_bottom"
+        app:layout_constraintRight_toRightOf="@id/tb4"
+        app:layout_constraintLeft_toRightOf="@id/tb2"
+        />
+    <TextView
+        android:id="@+id/tb4"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="我的"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_bottom"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/tb3"
+        />
+</android.support.constraint.ConstraintLayout>

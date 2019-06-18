@@ -1,20 +1,31 @@
 package weichat.privatecom.wwei.weichat.fragment;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.nio.file.WatchService;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import weichat.privatecom.wwei.weichat.JWebSocketClient;
 import weichat.privatecom.wwei.weichat.base.BaseFragment;
 import weichat.privatecom.wwei.weichat.R;
 import weichat.privatecom.wwei.weichat.bean.BaseObjectBean;
 import weichat.privatecom.wwei.weichat.bean.LoginBean;
 import weichat.privatecom.wwei.weichat.contract.LoginContract;
 import weichat.privatecom.wwei.weichat.presenter.LoginPresenter;
+import weichat.privatecom.wwei.weichat.service.WebSocketService;
+import weichat.privatecom.wwei.weichat.utils.ServiceManager;
 import weichat.privatecom.wwei.weichat.utils.ToastUtil;
+
+import static android.content.Context.BIND_AUTO_CREATE;
 
 /**
  * Created by Administrator on 2019/4/23.
@@ -81,8 +92,10 @@ public class LoginFragment extends BaseFragment implements LoginContract.View{
     public void onSuccess(LoginBean response)
     {
         ToastUtil.showToast(getActivity(),"登录成功");
+        getActivity().bindService(new Intent(getActivity(), WebSocketService.class), ServiceManager.newInstance().serviceConnection,BIND_AUTO_CREATE);
 
     }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -102,5 +115,10 @@ public class LoginFragment extends BaseFragment implements LoginContract.View{
                 loginPresenter.login(username,password);
                 break;
         }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ServiceManager.newInstance().webSocketService.closeConnect();
     }
 }
