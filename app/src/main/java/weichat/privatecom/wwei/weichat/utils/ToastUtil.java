@@ -76,9 +76,10 @@ public class ToastUtil {
             }
             toast.setGravity(Gravity.BOTTOM, 0, 60);
             toast.setDuration(Toast.LENGTH_SHORT);
-
-            int length = str.length();
-
+            int length = 0;
+            if(str!=null) {
+               length = str.length();
+            }
 
             if (length < 7) {
                 LinearLayout layout = new LinearLayout(context);

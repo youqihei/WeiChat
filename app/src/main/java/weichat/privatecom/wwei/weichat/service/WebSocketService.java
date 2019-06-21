@@ -19,8 +19,7 @@ import weichat.privatecom.wwei.weichat.JWebSocketClient;
 
 public class WebSocketService extends Service{
     private JWebSocketClientBinder mBinder = new JWebSocketClientBinder();
-    URI uri = URI.create("ws://echo.websocket.org");
-
+    URI uri = URI.create("ws://192.168.0.178:8080/WeiChatWeb/serverWebsocket");
     public  class  JWebSocketClientBinder extends Binder{
         public WebSocketService getService()
         {
@@ -36,15 +35,7 @@ public class WebSocketService extends Service{
         super.onCreate();
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        try {
-            client.connectBlocking();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return START_STICKY;
-    }
+
 
     public JWebSocketClient client = new JWebSocketClient(uri) {
         @Override
@@ -55,16 +46,19 @@ public class WebSocketService extends Service{
 
         @Override
         public void onOpen(ServerHandshake handshakedata) {
+            Log.e("deroor","oopen");
             super.onOpen(handshakedata);
         }
 
         @Override
         public void onClose(int code, String reason, boolean remote) {
+            Log.e("deroor","close");
             super.onClose(code, reason, remote);
         }
 
         @Override
         public void onError(Exception ex) {
+            Log.e("deroor","error");
             super.onError(ex);
         }
     };
@@ -89,6 +83,12 @@ public class WebSocketService extends Service{
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        try {
+            client.connectBlocking();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Log.e("e.prigntateetg",e.toString());
+        }
         return mBinder;
     }
 }

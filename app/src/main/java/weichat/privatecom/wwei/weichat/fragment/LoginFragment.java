@@ -92,8 +92,13 @@ public class LoginFragment extends BaseFragment implements LoginContract.View{
     public void onSuccess(LoginBean response)
     {
         ToastUtil.showToast(getActivity(),"登录成功");
-        getActivity().bindService(new Intent(getActivity(), WebSocketService.class), ServiceManager.newInstance().serviceConnection,BIND_AUTO_CREATE);
+        new Thread() {
+            @Override
+            public void run() {
+                getActivity().bindService(new Intent(getActivity(), WebSocketService.class), ServiceManager.newInstance().serviceConnection, BIND_AUTO_CREATE);
 
+            }
+            }.start();
     }
 
     @Override
@@ -119,6 +124,6 @@ public class LoginFragment extends BaseFragment implements LoginContract.View{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ServiceManager.newInstance().webSocketService.closeConnect();
+       getActivity().unbindService(ServiceManager.newInstance().serviceConnection);
     }
 }
