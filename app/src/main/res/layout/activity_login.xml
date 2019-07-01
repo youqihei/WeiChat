@@ -5,6 +5,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/MainTheme_TopHeight"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+        android:text="登录"
+        android:textSize="@dimen/MainTheme_TopSize"
+        android:layout_centerInParent="true"
+        />
+        <TextView
+            android:id="@+id/tv_register"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|right"
+            android:layout_marginRight="10dp"
+            android:text="注册"
+            android:textSize="10sp"
+            />
+    </RelativeLayout>
+    <ImageView
+        style="@style/ViewLineWidth"
+        android:background="@color/font_title_gray"
+        />
   <LinearLayout
     android:layout_marginTop="10dp"
     android:layout_marginLeft="20dp"

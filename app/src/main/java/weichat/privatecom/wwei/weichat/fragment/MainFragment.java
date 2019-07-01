@@ -22,6 +22,10 @@ import butterknife.OnClick;
 import weichat.privatecom.wwei.weichat.base.BaseFragment;
 import weichat.privatecom.wwei.weichat.R;
 import weichat.privatecom.wwei.weichat.activity.LoginActivity;
+import weichat.privatecom.wwei.weichat.service.WebSocketService;
+import weichat.privatecom.wwei.weichat.utils.ServiceManager;
+
+import static android.content.Context.BIND_AUTO_CREATE;
 
 /**
  * Created by Administrator on 2019/4/23.
@@ -38,27 +42,40 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.tb4)
     TextView tb4;
     private static MainFragment mainfragment;
+    public static String Mainfragment = "main_fragment";
     private int oCid  = -1;
     private ChatFragment chatFragment;
     private CommuteFragment commuteFragment;
     private FriendCircleFragment friendCircleFragment;
     private MineFragment mineFragment;
-
     private FragmentManager fm;
     private BaseFragment mCurrentFragment;
-    public static BaseFragment newInstance()
+
+    public static BaseFragment newInstance(boolean isfiring)
     {
         if(mainfragment==null)
         {
             mainfragment = new MainFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Mainfragment,isfiring);
+            mainfragment.setArguments(bundle);
         }
         return mainfragment;
     }
+    @Override
+    public void onCreate(Bundle saveInstanceState)
+    {
+        super.onCreate(saveInstanceState);
+        if(null!=getArguments())
+        {
 
+        }
+    }
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
         fm = getActivity().getSupportFragmentManager();
             selectHomeTab(R.id.tb1);
+
     }
     public void selectHomeTab(int checkedId) {
         if (checkedId == R.id.tb1&& oCid != R.id.tb1) {
@@ -111,4 +128,5 @@ public class MainFragment extends BaseFragment {
 
         return R.layout.activity_main;
     }
+
 }

@@ -9,10 +9,10 @@
      android:layout_marginTop="10dp"
      android:id="@+id/tv_title"
      android:layout_width="match_parent"
-     android:layout_height="wrap_content"
+     android:layout_height="@dimen/MainTheme_TopHeight"
      android:gravity="center"
      android:text="WeiChat"
-     android:textSize="16sp"
+     android:textSize="@dimen/MainTheme_TopSize"
      />
  <View
      android:layout_marginTop="10dp"

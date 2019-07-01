@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通用高度大小 -->
+    <dimen name="MainTheme_TopHeight">30dp</dimen>
+    <!-- 通用文字大小 -->
+    <dimen name="MainTheme_TopSize">16sp</dimen>
+</resources>

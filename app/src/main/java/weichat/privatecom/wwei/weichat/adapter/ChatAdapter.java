@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import weichat.privatecom.wwei.weichat.R;
 import weichat.privatecom.wwei.weichat.bean.ChatBean;
+import weichat.privatecom.wwei.weichat.bean.ChatRecordBean;
 
 /**
  * Created by Administrator on 2019/6/18.
@@ -20,11 +22,13 @@ import weichat.privatecom.wwei.weichat.bean.ChatBean;
 public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
     private Context mContext;
-    private List<ChatBean> list;
-    public ChatAdapter(Context context,List<ChatBean> list)
+    private List<ChatRecordBean.Group> grouplist ;
+    private List<ChatRecordBean.User> userlist ;
+    public ChatAdapter(Context context,List<ChatRecordBean.Group> grouplist,List<ChatRecordBean.User> userlist )
     {
         mContext = context;
-        this.list = list;
+        this.grouplist = grouplist;
+        this.userlist = userlist;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,13 +39,13 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-           holder.tv_title.setText(list.get(position).getContent());
-           holder.tv_content.setText(list.get(position).getTitle());
+           holder.tv_title.setText(grouplist.get(position).getGroupid());
+           holder.tv_content.setText(grouplist.get(position).getGroupid());
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return grouplist.size()+userlist.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder
