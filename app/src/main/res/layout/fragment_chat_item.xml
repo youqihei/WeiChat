@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="70dp"
+    android:id="@+id/constraint_bottom"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
@@ -37,10 +38,13 @@
         android:textSize="12sp"
         />
     <View
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_content"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="75dp"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/font_title_gray"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_bottom"
         />
 </android.support.constraint.ConstraintLayout>

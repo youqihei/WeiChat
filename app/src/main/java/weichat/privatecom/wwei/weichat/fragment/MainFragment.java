@@ -74,14 +74,17 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
         fm = getActivity().getSupportFragmentManager();
+
             selectHomeTab(R.id.tb1);
 
     }
     public void selectHomeTab(int checkedId) {
         if (checkedId == R.id.tb1&& oCid != R.id.tb1) {
             //首页
-            if (chatFragment == null)
+            if (chatFragment == null) {
                 chatFragment = new ChatFragment();
+                Log.e("lozpienmow", "seewfewf");
+            }
             repalce(chatFragment);
         } else if (checkedId == R.id.tb2&& oCid != R.id.tb2) {
             if (commuteFragment == null) {
@@ -116,6 +119,7 @@ public class MainFragment extends BaseFragment {
             ft.hide(mCurrentFragment).show(fragment);
         mCurrentFragment = fragment;
         ft.commitAllowingStateLoss();
+
     }
     public
     @OnClick({R.id.tb1,R.id.tb2,R.id.tb3,R.id.tb4})
@@ -128,5 +132,10 @@ public class MainFragment extends BaseFragment {
 
         return R.layout.activity_main;
     }
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+       mainfragment = null;
+       chatFragment = null;
+    }
 }

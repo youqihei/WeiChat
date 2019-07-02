@@ -11,12 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
+import butterknife.OnClick;
 import weichat.privatecom.wwei.weichat.JWebSocketClient;
 import weichat.privatecom.wwei.weichat.MainActivity;
 import weichat.privatecom.wwei.weichat.R;
@@ -41,19 +43,18 @@ import weichat.privatecom.wwei.weichat.utils.ToastUtil;
 public class ChatFragment extends BaseFragment implements ChatRecordContract.View {
     @BindView(R.id.ry_list)
     RecyclerView recyclerView;
-
+    @BindView(R.id.tv_add)
+    TextView tv_add;
     ChatAdapter chatAdapter;
-    private List<ChatRecordBean.Group> grouplist = new ArrayList<>();
-    private List<ChatRecordBean.User> userlist = new ArrayList<>();
+    private List<ChatBean> list = new ArrayList<>();
    private ChatRecordPresenter chatRecordPresenter;
 
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
-        initData();
-      chatAdapter = new ChatAdapter(getActivity(),grouplist,userlist);
+      chatAdapter = new ChatAdapter(getActivity(),list);
       recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
       recyclerView.setAdapter(chatAdapter);
-      chatAdapter.notifyDataSetChanged();
+
     }
     //显示进度框
     @Override
@@ -78,15 +79,50 @@ public class ChatFragment extends BaseFragment implements ChatRecordContract.Vie
     @Override
     public void onSuccess(ChatRecordBean response)
     {
-         grouplist.addAll(response.getGroups());
-         userlist.addAll(response.getUsers());
+        list.clear();
+        int length = 0;
+        for(int i=0;i<response.getGroups().size();i++)
+        {
+            length =  response.getGroups().get(i).getGroupcontent().getContent().size();
+            ChatBean chatBean = new ChatBean(response.getGroups().get(i).getGroupphoto(),
+                    response.getGroups().get(i).getGroupname(),
+                    response.getGroups().get(i).getGroupcontent().getContent().get(length-1),"");
+             list.add(chatBean);
+        }
+        for(int i=0;i<response.getUsers().size();i++)
+        {
+            length = response.getUsers().get(i).getUsercontent().size();
+            ChatBean chatBean = new ChatBean(response.getUsers().get(i).getUserphoto(),
+                    response.getUsers().get(i).getUsername(),
+                    response.getUsers().get(i).getUsercontent().get(length-1),"");
+            list.add(chatBean);
+        }
          chatAdapter.notifyDataSetChanged();
+    }
+    public
+    @OnClick({R.id.tv_add})
+    void addFriend(View view) {
+        switch (view.getId())
+        {
+            case R.id.tv_add:
+              AddFriendFragment addfriendfragment = new AddFriendFragment();
+              addFragment(addfriendfragment);
+                break;
+        }
+    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        initData();
     }
     private void initData()
     {
         chatRecordPresenter = new ChatRecordPresenter(this);
         chatRecordPresenter.attachView(this);
+        chatRecordPresenter.getChatRecord(PreferenceUtil.getUserName(getHodingActivity()));
     }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_chat;

@@ -9,7 +9,13 @@ public class ChatBean {
     private String title;
     private String friend_id;
     private String content;
-
+   public ChatBean(String imv,String title,String content,String friend_id)
+   {
+       this.imv = imv;
+       this.title = title;
+       this.content = content;
+       this.friend_id = friend_id;
+   }
     public String getContent() {
         return content;
     }

@@ -22,13 +22,12 @@ import weichat.privatecom.wwei.weichat.bean.ChatRecordBean;
 public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
     private Context mContext;
-    private List<ChatRecordBean.Group> grouplist ;
-    private List<ChatRecordBean.User> userlist ;
-    public ChatAdapter(Context context,List<ChatRecordBean.Group> grouplist,List<ChatRecordBean.User> userlist )
+    private List<ChatBean> list ;
+
+    public ChatAdapter(Context context,List<ChatBean>list )
     {
         mContext = context;
-        this.grouplist = grouplist;
-        this.userlist = userlist;
+        this.list = list;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,13 +38,13 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-           holder.tv_title.setText(grouplist.get(position).getGroupid());
-           holder.tv_content.setText(grouplist.get(position).getGroupid());
+           holder.tv_title.setText(list.get(position).getTitle());
+           holder.tv_content.setText(list.get(position).getContent());
     }
 
     @Override
     public int getItemCount() {
-        return grouplist.size()+userlist.size();
+        return list.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder
