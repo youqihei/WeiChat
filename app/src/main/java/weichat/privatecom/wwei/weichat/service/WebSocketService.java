@@ -62,7 +62,6 @@ public class WebSocketService extends Service{
     public IBinder onBind(Intent intent) {
         try {
             String username = PreferenceUtil.getUserName(getBaseContext());
-            Log.e("kankinee",username);
             uri = URI.create("ws://192.168.0.178:8080/WeiChatWeb/serverWebsocket/"+username);
             client = new JWebSocketClient(uri) {
                 @Override

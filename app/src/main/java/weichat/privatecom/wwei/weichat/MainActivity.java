@@ -39,6 +39,7 @@ public class MainActivity extends AppActivity {
         }.start();
         return MainFragment.newInstance(isfiring);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

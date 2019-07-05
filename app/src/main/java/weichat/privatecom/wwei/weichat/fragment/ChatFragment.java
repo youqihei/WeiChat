@@ -1,16 +1,10 @@
 package weichat.privatecom.wwei.weichat.fragment;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
 
-import android.os.IBinder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,20 +13,14 @@ import java.util.List;
 import butterknife.BindView;
 
 import butterknife.OnClick;
-import weichat.privatecom.wwei.weichat.JWebSocketClient;
-import weichat.privatecom.wwei.weichat.MainActivity;
 import weichat.privatecom.wwei.weichat.R;
 import weichat.privatecom.wwei.weichat.adapter.ChatAdapter;
 import weichat.privatecom.wwei.weichat.base.BaseFragment;
 import weichat.privatecom.wwei.weichat.bean.ChatBean;
 import weichat.privatecom.wwei.weichat.bean.ChatRecordBean;
-import weichat.privatecom.wwei.weichat.bean.LoginBean;
-import weichat.privatecom.wwei.weichat.contract.ChatRecordContract;
+import weichat.privatecom.wwei.weichat.contract.Contract;
 import weichat.privatecom.wwei.weichat.exception.ApiException;
-import weichat.privatecom.wwei.weichat.presenter.ChatRecordPresenter;
-import weichat.privatecom.wwei.weichat.presenter.LoginPresenter;
-import weichat.privatecom.wwei.weichat.presenter.RegisterPresenter;
-import weichat.privatecom.wwei.weichat.service.WebSocketService;
+import weichat.privatecom.wwei.weichat.presenter.Presenter;
 import weichat.privatecom.wwei.weichat.utils.PreferenceUtil;
 import weichat.privatecom.wwei.weichat.utils.ToastUtil;
 
@@ -40,22 +28,28 @@ import weichat.privatecom.wwei.weichat.utils.ToastUtil;
  * Created by Administrator on 2019/6/13.
  */
 
-public class ChatFragment extends BaseFragment implements ChatRecordContract.View {
+public class ChatFragment extends BaseFragment implements Contract.ChatRecordView {
     @BindView(R.id.ry_list)
     RecyclerView recyclerView;
     @BindView(R.id.tv_add)
     TextView tv_add;
     ChatAdapter chatAdapter;
     private List<ChatBean> list = new ArrayList<>();
-   private ChatRecordPresenter chatRecordPresenter;
+   private Presenter chatRecordPresenter;
 
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
-      chatAdapter = new ChatAdapter(getActivity(),list);
+      chatAdapter = new ChatAdapter(getHodingActivity(),list,chatCallback);
       recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
       recyclerView.setAdapter(chatAdapter);
 
     }
+    public  ChatAdapter.ChatCallback chatCallback= new ChatAdapter.ChatCallback() {
+        @Override
+        public void startnewFragment(String friendname) {
+            addFragment(ChatFriendFragment.newInstance(friendname));
+        }
+    };
     //显示进度框
     @Override
     public void showloading()
@@ -81,22 +75,31 @@ public class ChatFragment extends BaseFragment implements ChatRecordContract.Vie
     {
         list.clear();
         int length = 0;
+        String content = "";
         for(int i=0;i<response.getGroups().size();i++)
         {
             length =  response.getGroups().get(i).getGroupcontent().getContent().size();
+            if(length>0)
+            {
+                content =  response.getGroups().get(i).getGroupcontent().getContent().get(length-1);
+            }
             ChatBean chatBean = new ChatBean(response.getGroups().get(i).getGroupphoto(),
-                    response.getGroups().get(i).getGroupname(),
-                    response.getGroups().get(i).getGroupcontent().getContent().get(length-1),"");
+                    response.getGroups().get(i).getGroupname(),content,"");
              list.add(chatBean);
         }
         for(int i=0;i<response.getUsers().size();i++)
         {
             length = response.getUsers().get(i).getUsercontent().size();
+            if(length>0)
+            {
+                content =  response.getUsers().get(i).getUsercontent().get(length-1);
+            }
             ChatBean chatBean = new ChatBean(response.getUsers().get(i).getUserphoto(),
-                    response.getUsers().get(i).getUsername(),
-                    response.getUsers().get(i).getUsercontent().get(length-1),"");
+                    response.getUsers().get(i).getUsername(),content
+                   ,"");
             list.add(chatBean);
         }
+
          chatAdapter.notifyDataSetChanged();
     }
     public
@@ -118,8 +121,7 @@ public class ChatFragment extends BaseFragment implements ChatRecordContract.Vie
     }
     private void initData()
     {
-        chatRecordPresenter = new ChatRecordPresenter(this);
-        chatRecordPresenter.attachView(this);
+        chatRecordPresenter = new Presenter(this);
         chatRecordPresenter.getChatRecord(PreferenceUtil.getUserName(getHodingActivity()));
     }
 

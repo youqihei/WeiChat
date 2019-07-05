@@ -4,18 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import weichat.privatecom.wwei.weichat.R;
 import weichat.privatecom.wwei.weichat.base.BaseFragment;
 import weichat.privatecom.wwei.weichat.bean.ChatBean;
-import weichat.privatecom.wwei.weichat.bean.ChatRecordBean;
-import weichat.privatecom.wwei.weichat.contract.AddFriendContract;
+import weichat.privatecom.wwei.weichat.contract.Contract;
 import weichat.privatecom.wwei.weichat.exception.ApiException;
-import weichat.privatecom.wwei.weichat.presenter.AddFriendPresenter;
-import weichat.privatecom.wwei.weichat.presenter.ChatRecordPresenter;
+import weichat.privatecom.wwei.weichat.presenter.Presenter;
 import weichat.privatecom.wwei.weichat.utils.PreferenceUtil;
 import weichat.privatecom.wwei.weichat.utils.ToastUtil;
 
@@ -23,13 +20,13 @@ import weichat.privatecom.wwei.weichat.utils.ToastUtil;
  * Created by Administrator on 2019/7/2.
  */
 
-public class AddFriendFragment extends BaseFragment implements AddFriendContract.View {
+public class AddFriendFragment extends BaseFragment implements Contract.AddFriendView {
     @BindView(R.id.et_add)
     EditText et_add;
     @BindView(R.id.bt_add)
     Button bt_add;
 
-    AddFriendPresenter addFriendPresenter ;
+    Presenter addFriendPresenter ;
 
     //显示进度框
     @Override
@@ -59,8 +56,7 @@ public class AddFriendFragment extends BaseFragment implements AddFriendContract
     }
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
-        addFriendPresenter = new AddFriendPresenter(this);
-        addFriendPresenter.attachView(this);
+        addFriendPresenter = new Presenter(this);
     }
 
     @Override

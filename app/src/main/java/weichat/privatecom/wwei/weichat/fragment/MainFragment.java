@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -74,16 +76,13 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
         fm = getActivity().getSupportFragmentManager();
-
             selectHomeTab(R.id.tb1);
-
     }
     public void selectHomeTab(int checkedId) {
         if (checkedId == R.id.tb1&& oCid != R.id.tb1) {
             //首页
             if (chatFragment == null) {
                 chatFragment = new ChatFragment();
-                Log.e("lozpienmow", "seewfewf");
             }
             repalce(chatFragment);
         } else if (checkedId == R.id.tb2&& oCid != R.id.tb2) {
