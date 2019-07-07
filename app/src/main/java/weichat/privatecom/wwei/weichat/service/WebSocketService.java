@@ -39,7 +39,6 @@ public class WebSocketService extends Service{
 
 
     public JWebSocketClient client ;
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -62,12 +61,16 @@ public class WebSocketService extends Service{
     public IBinder onBind(Intent intent) {
         try {
             String username = PreferenceUtil.getUserName(getBaseContext());
-            uri = URI.create("ws://192.168.0.178:8080/WeiChatWeb/serverWebsocket/"+username);
+            uri = URI.create("ws://192.168.0.108:8080/WeiChatWeb/serverWebsocket/"+username);
             client = new JWebSocketClient(uri) {
                 @Override
                 public void onMessage(String message) {
                     //message就是接收到的消息
                     Log.e("JWebSClientService", message);
+                    Intent intent = new Intent();
+                    intent.setAction("weichat.private.wei.weichat.content");
+                    intent.putExtra("message", message);
+                    sendBroadcast(intent);
                 }
 
                 @Override
@@ -90,6 +93,7 @@ public class WebSocketService extends Service{
             };
             Log.e("kankinee","1");
             client.connectBlocking();
+
             Log.e("kankinee","2");
         } catch (InterruptedException e) {
             e.printStackTrace();

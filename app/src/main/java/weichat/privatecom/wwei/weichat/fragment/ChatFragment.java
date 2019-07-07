@@ -28,7 +28,7 @@ import weichat.privatecom.wwei.weichat.utils.ToastUtil;
  * Created by Administrator on 2019/6/13.
  */
 
-public class ChatFragment extends BaseFragment implements Contract.ChatRecordView {
+public class ChatFragment extends BaseFragment implements Contract.ChatView {
     @BindView(R.id.ry_list)
     RecyclerView recyclerView;
     @BindView(R.id.tv_add)
@@ -122,7 +122,7 @@ public class ChatFragment extends BaseFragment implements Contract.ChatRecordVie
     private void initData()
     {
         chatRecordPresenter = new Presenter(this);
-        chatRecordPresenter.getChatRecord(PreferenceUtil.getUserName(getHodingActivity()));
+        chatRecordPresenter.getchatrecord(PreferenceUtil.getUserName(getHodingActivity()));
     }
 
     @Override

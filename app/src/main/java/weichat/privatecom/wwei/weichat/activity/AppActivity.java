@@ -2,6 +2,7 @@ package weichat.privatecom.wwei.weichat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import butterknife.ButterKnife;
 import weichat.privatecom.wwei.weichat.base.BaseActivity;

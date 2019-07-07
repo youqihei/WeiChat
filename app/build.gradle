@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "weichat.privatecom.wwei.weichat"
@@ -43,5 +47,6 @@ dependencies {
     //RecycerView
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     //WebSocket
-    implementation "org.java-websocket:Java-WebSocket:1.4.0"
+    implementation 'org.java-websocket:Java-WebSocket:1.4.0'
+    implementation 'com.alibaba:fastjson:1.2.58'
 }
