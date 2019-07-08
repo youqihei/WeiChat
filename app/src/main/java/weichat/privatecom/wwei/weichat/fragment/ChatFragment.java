@@ -1,9 +1,14 @@
 package weichat.privatecom.wwei.weichat.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,10 +22,12 @@ import weichat.privatecom.wwei.weichat.R;
 import weichat.privatecom.wwei.weichat.adapter.ChatAdapter;
 import weichat.privatecom.wwei.weichat.base.BaseFragment;
 import weichat.privatecom.wwei.weichat.bean.ChatBean;
+import weichat.privatecom.wwei.weichat.bean.ChatMessageBean;
 import weichat.privatecom.wwei.weichat.bean.ChatRecordBean;
 import weichat.privatecom.wwei.weichat.contract.Contract;
 import weichat.privatecom.wwei.weichat.exception.ApiException;
 import weichat.privatecom.wwei.weichat.presenter.Presenter;
+import weichat.privatecom.wwei.weichat.utils.JsonTool;
 import weichat.privatecom.wwei.weichat.utils.PreferenceUtil;
 import weichat.privatecom.wwei.weichat.utils.ToastUtil;
 
@@ -36,6 +43,7 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
     ChatAdapter chatAdapter;
     private List<ChatBean> list = new ArrayList<>();
    private Presenter chatRecordPresenter;
+
 
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
@@ -69,6 +77,27 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
         ApiException apiException = (ApiException) throwable;
         ToastUtil.showToast(getActivity(),apiException.getDisplayMessage());
     }
+
+    private ChatReceiver chatReceiver;
+    private void doRegisterReceiver()
+    {
+        chatReceiver = new ChatReceiver();
+        IntentFilter filter = new IntentFilter("weichat.private.wei.weichat.chatinterface");
+        getHodingActivity().registerReceiver(chatReceiver, filter);
+    }
+    public class ChatReceiver  extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message_chatinterface");
+            Log.e("size0",message+"");
+         if(message!=null)
+         {
+             initData();
+         }
+        }
+    }
+
     //请求数据成功
     @Override
     public void onSuccess(ChatRecordBean response)

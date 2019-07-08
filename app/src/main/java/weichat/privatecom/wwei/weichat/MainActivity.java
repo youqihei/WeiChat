@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import io.reactivex.disposables.CompositeDisposable;
 import weichat.privatecom.wwei.weichat.activity.AppActivity;
 import weichat.privatecom.wwei.weichat.base.BaseFragment;
 import weichat.privatecom.wwei.weichat.fragment.MainFragment;
@@ -23,20 +24,18 @@ public class MainActivity extends AppActivity {
     protected void HoldingIntent(Intent intent) {
         super.HoldingIntent(intent);
         Bundle bundle = intent.getExtras();
+
         if(bundle!=null)
         {
             isfiring = bundle.getBoolean("isfiring");
         }
+
     }
+
+
     @Override
     protected BaseFragment getFirstFragment() {
-        new Thread() {
-            @Override
-            public void run() {
-                bindService( new Intent(getBaseContext(), WebSocketService.class), ServiceManager.newInstance().serviceConnection, BIND_AUTO_CREATE);
 
-            }
-        }.start();
         return MainFragment.newInstance(isfiring);
     }
 

@@ -75,6 +75,13 @@ public class MainFragment extends BaseFragment {
     }
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
+        new Thread() {
+            @Override
+            public void run() {
+               getHodingActivity().bindService( new Intent(getHodingActivity().getBaseContext(), WebSocketService.class), ServiceManager.newInstance().serviceConnection, BIND_AUTO_CREATE);
+
+            }
+        }.start();
         fm = getActivity().getSupportFragmentManager();
             selectHomeTab(R.id.tb1);
     }

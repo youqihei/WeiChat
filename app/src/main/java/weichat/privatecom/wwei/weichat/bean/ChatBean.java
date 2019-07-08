@@ -9,7 +9,8 @@ public class ChatBean {
     private String title;
     private String message_id;
     private String content;
-
+   public ChatBean()
+   {}
 
    public ChatBean(String imv,String title,String content,String message_id)
    {
