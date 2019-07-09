@@ -12,7 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,9 +28,11 @@ import weichat.privatecom.wwei.weichat.bean.ChatBean;
 import weichat.privatecom.wwei.weichat.bean.ChatMessageBean;
 import weichat.privatecom.wwei.weichat.bean.ChatRecordBean;
 import weichat.privatecom.wwei.weichat.contract.Contract;
+import weichat.privatecom.wwei.weichat.dbflow.dbbean.FNameTable;
 import weichat.privatecom.wwei.weichat.exception.ApiException;
 import weichat.privatecom.wwei.weichat.presenter.Presenter;
 import weichat.privatecom.wwei.weichat.utils.JsonTool;
+import weichat.privatecom.wwei.weichat.utils.Pinyin4jUtil;
 import weichat.privatecom.wwei.weichat.utils.PreferenceUtil;
 import weichat.privatecom.wwei.weichat.utils.ToastUtil;
 
@@ -55,6 +60,7 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
     public  ChatAdapter.ChatCallback chatCallback= new ChatAdapter.ChatCallback() {
         @Override
         public void startnewFragment(String friendname) {
+
             addFragment(ChatFriendFragment.newInstance(friendname));
         }
     };
@@ -116,20 +122,26 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
                     response.getGroups().get(i).getGroupname(),content,"");
              list.add(chatBean);
         }
-        for(int i=0;i<response.getUsers().size();i++)
-        {
+        for(int i=0;i<response.getUsers().size();i++) {
             length = response.getUsers().get(i).getUsercontent().size();
-            if(length>0)
-            {
-                content =  response.getUsers().get(i).getUsercontent().get(length-1);
+            if (length > 0) {
+                content = response.getUsers().get(i).getUsercontent().get(length - 1);
             }
+            FNameTable fNameTable = new FNameTable();
+            String username = response.getUsers().get(i).getUsername();
+            String username_en  = Pinyin4jUtil.converterToSpell(username);
+            fNameTable.setUsername(username);
+            fNameTable.setUserphoto(response.getUsers().get(i).getUsername());
+            fNameTable.setUsername_en(username_en);
+            fNameTable.save();
             ChatBean chatBean = new ChatBean(response.getUsers().get(i).getUserphoto(),
-                    response.getUsers().get(i).getUsername(),content
-                   ,"");
+                    username, content
+                    , "");
             list.add(chatBean);
         }
-
          chatAdapter.notifyDataSetChanged();
+
+
     }
     public
     @OnClick({R.id.tv_add})

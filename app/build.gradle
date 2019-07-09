@@ -24,7 +24,14 @@ android {
     productFlavors {
     }
 }
-
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+//为了方便可使用 def 关键字定义版本号
+def dbFlow_version = "4.2.4"
 dependencies {
     androidTestCompile('com.android.support:support-annotations:26.1.0') {
         force = true
@@ -49,4 +56,9 @@ dependencies {
     //WebSocket
     implementation 'org.java-websocket:Java-WebSocket:1.4.0'
     implementation 'com.alibaba:fastjson:1.2.58'
+    //dbflow
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbFlow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbFlow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbFlow_version}"
+    implementation files('libs/pinyin4j-2.5.0.jar')
 }

@@ -7,13 +7,26 @@
     >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/MainTheme_TopHeight"
+        android:layout_height="45dp"
         android:background="@color/font_title_gray"
         >
+        <TextView
+            android:visibility="gone"
+            android:gravity="center"
+            android:id="@+id/tv_messagenumbers"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_height="20dp"
+            android:layout_width="20dp"
+            android:textSize="10sp"
+            android:text="0"
+            android:background="@drawable/gray_ball"
+            />
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:background="@drawable/back"
 
             android:layout_alignParentLeft="true"

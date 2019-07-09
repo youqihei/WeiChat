@@ -45,9 +45,12 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
     TextView tv_title;
     @BindView(R.id.msg)
     RecyclerView recyclerView;
+    @BindView(R.id.tv_messagenumbers)
+    TextView tv_messagenumber;
     @BindView(R.id.input)
     EditText input;
     MsgAdapter msgAdapter;
+    private int count;
     private List<ChatMessageBean> list = new ArrayList<>();
 
     private Presenter chatfriendPresenter;
@@ -74,7 +77,6 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
 
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
-        Log.e("siebg",friendname);
         tv_title.setText(friendname);
         msgAdapter = new MsgAdapter(list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -117,14 +119,19 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("message_friend");
-            Log.e("size0",message+"");
             ChatMessageBean chatMessageBean = JsonTool.getPerson(message, ChatMessageBean.class);
             if (chatMessageBean != null) {
-                Log.e("size",list.size()+"");
-                list.add(chatMessageBean);
-                Log.e("size11",list.size()+"");
-                msgAdapter.notifyItemChanged(list.size() - 1);
-                recyclerView.scrollToPosition(msgAdapter.getItemCount() - 1);
+                if(chatMessageBean.getTitle().equals(friendname)) {
+                    list.add(chatMessageBean);
+                    msgAdapter.notifyItemChanged(list.size() - 1);
+                    recyclerView.scrollToPosition(msgAdapter.getItemCount() - 1);
+                }
+                else
+                {
+                    count++;
+                    tv_messagenumber.setText(count+"");
+                    tv_messagenumber.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -216,6 +223,7 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
     @Override
     public void onDestroy() {
         getHodingActivity().unregisterReceiver(chatMessageReceiver);
+        chatFriendFragment = null;
         super.onDestroy();
         chatMessageReceiver = null;
     }

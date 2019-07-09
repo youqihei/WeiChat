@@ -130,6 +130,7 @@ public class MainFragment extends BaseFragment {
     public
     @OnClick({R.id.tb1,R.id.tb2,R.id.tb3,R.id.tb4})
     void showFragment(View view) {
+
         selectHomeTab(view.getId());
     }
 

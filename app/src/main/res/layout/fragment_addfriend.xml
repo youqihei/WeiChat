@@ -7,7 +7,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/MainTheme_TopHeight"
+        android:layout_height="45dp"
         android:gravity="center"
         android:text="添加朋友"
         android:textSize="@dimen/MainTheme_TopSize"
