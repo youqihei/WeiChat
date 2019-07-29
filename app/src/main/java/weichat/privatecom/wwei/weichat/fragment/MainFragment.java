@@ -79,7 +79,6 @@ public class MainFragment extends BaseFragment {
             @Override
             public void run() {
                getHodingActivity().bindService( new Intent(getHodingActivity().getBaseContext(), WebSocketService.class), ServiceManager.newInstance().serviceConnection, BIND_AUTO_CREATE);
-
             }
         }.start();
         fm = getActivity().getSupportFragmentManager();
@@ -93,6 +92,7 @@ public class MainFragment extends BaseFragment {
             }
             repalce(chatFragment);
         } else if (checkedId == R.id.tb2&& oCid != R.id.tb2) {
+
             if (commuteFragment == null) {
                 commuteFragment = new CommuteFragment();
             }

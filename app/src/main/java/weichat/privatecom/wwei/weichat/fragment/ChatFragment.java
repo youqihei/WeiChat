@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +24,8 @@ import butterknife.BindView;
 
 import butterknife.OnClick;
 import weichat.privatecom.wwei.weichat.R;
+import weichat.privatecom.wwei.weichat.activity.AddFriendActivity;
+import weichat.privatecom.wwei.weichat.activity.AddGroupActivity;
 import weichat.privatecom.wwei.weichat.adapter.ChatAdapter;
 import weichat.privatecom.wwei.weichat.base.BaseFragment;
 import weichat.privatecom.wwei.weichat.bean.ChatBean;
@@ -29,6 +33,8 @@ import weichat.privatecom.wwei.weichat.bean.ChatMessageBean;
 import weichat.privatecom.wwei.weichat.bean.ChatRecordBean;
 import weichat.privatecom.wwei.weichat.contract.Contract;
 import weichat.privatecom.wwei.weichat.dbflow.dbbean.FNameTable;
+
+import weichat.privatecom.wwei.weichat.dbflow.dbbean.FNameTable_Table;
 import weichat.privatecom.wwei.weichat.exception.ApiException;
 import weichat.privatecom.wwei.weichat.presenter.Presenter;
 import weichat.privatecom.wwei.weichat.utils.JsonTool;
@@ -52,15 +58,13 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
 
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
-      chatAdapter = new ChatAdapter(getHodingActivity(),list,chatCallback);
-      recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-      recyclerView.setAdapter(chatAdapter);
-
+        chatAdapter = new ChatAdapter(getHodingActivity(),list,chatCallback);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(chatAdapter);
     }
     public  ChatAdapter.ChatCallback chatCallback= new ChatAdapter.ChatCallback() {
         @Override
         public void startnewFragment(String friendname) {
-
             addFragment(ChatFriendFragment.newInstance(friendname));
         }
     };
@@ -80,8 +84,10 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
     @Override
     public void onError(Throwable throwable)
     {
-        ApiException apiException = (ApiException) throwable;
-        ToastUtil.showToast(getActivity(),apiException.getDisplayMessage());
+        if(throwable instanceof  ApiException) {
+            ApiException apiException = (ApiException) throwable;
+            ToastUtil.showToast(getActivity(), apiException.getDisplayMessage());
+        }
     }
 
     private ChatReceiver chatReceiver;
@@ -96,7 +102,6 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("message_chatinterface");
-            Log.e("size0",message+"");
          if(message!=null)
          {
              initData();
@@ -119,7 +124,7 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
                 content =  response.getGroups().get(i).getGroupcontent().getContent().get(length-1);
             }
             ChatBean chatBean = new ChatBean(response.getGroups().get(i).getGroupphoto(),
-                    response.getGroups().get(i).getGroupname(),content,"");
+                    response.getGroups().get(i).getGroupname(),content,response.getGroups().get(i).getGroupid());
              list.add(chatBean);
         }
         for(int i=0;i<response.getUsers().size();i++) {
@@ -127,21 +132,21 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
             if (length > 0) {
                 content = response.getUsers().get(i).getUsercontent().get(length - 1);
             }
-            FNameTable fNameTable = new FNameTable();
             String username = response.getUsers().get(i).getUsername();
+            ChatBean chatBean = new ChatBean(response.getUsers().get(i).getUserphoto(),
+                    username, content
+                    , response.getUsers().get(i).getUserid());
+            list.add(chatBean);
+            FNameTable fNameTable = new FNameTable();
             String username_en  = Pinyin4jUtil.converterToSpell(username);
+            fNameTable.setUserid(Integer.parseInt(response.getUsers().get(i).getUserid()));
             fNameTable.setUsername(username);
             fNameTable.setUserphoto(response.getUsers().get(i).getUsername());
             fNameTable.setUsername_en(username_en);
             fNameTable.save();
-            ChatBean chatBean = new ChatBean(response.getUsers().get(i).getUserphoto(),
-                    username, content
-                    , "");
-            list.add(chatBean);
+
         }
          chatAdapter.notifyDataSetChanged();
-
-
     }
     public
     @OnClick({R.id.tv_add})
@@ -149,8 +154,7 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
         switch (view.getId())
         {
             case R.id.tv_add:
-              AddFriendFragment addfriendfragment = new AddFriendFragment();
-              addFragment(addfriendfragment);
+                startActivity(new Intent(getHodingActivity(), AddFriendActivity.class));
                 break;
         }
     }

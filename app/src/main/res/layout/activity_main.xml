@@ -1,18 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
    <FrameLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
+       android:layout_weight="1"
        android:id="@+id/fragment_container"
        />
    <View
-       app:layout_constraintBottom_toTopOf="@id/constraint_bottom"
        android:layout_width="match_parent"
        android:layout_height="0.5dp"
        android:background="@color/font_title_gray" />
-   <include layout="@layout/activity_main_bottom" />
-</android.support.constraint.ConstraintLayout>
+   <LinearLayout
+       android:layout_alignParentBottom="true"
+       android:id="@+id/constraint_bottom"
+       android:layout_width="match_parent"
+       android:layout_height="48dp"
+       android:orientation="horizontal"
+       android:background="#f9f9f9">
+
+      <TextView
+          android:id="@+id/tb1"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="48dp"
+          android:text="聊天"
+          android:gravity="center" />
+      <TextView
+          android:id="@+id/tb2"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="48dp"
+          android:gravity="center"
+          android:text="通讯录"
+          />
+      <TextView
+          android:id="@+id/tb3"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="48dp"
+          android:gravity="center"
+          android:text="发现"
+          />
+      <TextView
+          android:id="@+id/tb4"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="48dp"
+          android:gravity="center"
+          android:text="我的"
+          />
+   </LinearLayout>
+</RelativeLayout>

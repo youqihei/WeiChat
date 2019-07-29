@@ -6,6 +6,11 @@ android {
         }
     }
     compileSdkVersion 26
+    packagingOptions {
+        //解决编译时com.android.builder.merge.DuplicateRelativeFileException: More than one file was found with OS independent path 'META-INF/rxjava.properties'这个错误
+        exclude 'META-INF/rxjava.properties'
+
+    }
     defaultConfig {
         applicationId "weichat.privatecom.wwei.weichat"
         minSdkVersion 21
@@ -60,5 +65,6 @@ dependencies {
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbFlow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbFlow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbFlow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-rx:${dbFlow_version}"
     implementation files('libs/pinyin4j-2.5.0.jar')
 }

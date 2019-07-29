@@ -111,7 +111,9 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
         list.clear();
         list.addAll(response);
         msgAdapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(msgAdapter.getItemCount() - 1);
+        if(msgAdapter.getItemCount()!=0) {
+            recyclerView.scrollToPosition(msgAdapter.getItemCount() - 1);
+        }
     }
 
     private class ChatMessageReceiver extends BroadcastReceiver {

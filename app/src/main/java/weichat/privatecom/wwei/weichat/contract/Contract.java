@@ -16,6 +16,7 @@ public interface Contract {
         Observable<BaseObjectBean<ChatRecordBean>> getchatrecord(String name);
         Observable<BaseObjectBean<List<ChatMessageBean>>> getChatFriendMessage(String name, String fname);
         Observable<BaseObjectBean<ChatBean>> addfriend(String name, String fname);
+        Observable<BaseObjectBean<LoginBean>> addgroup(String name, String groupjson);
     }
 
     interface View extends BaseView
@@ -34,10 +35,15 @@ public interface Contract {
     {
         void onSuccess(List<ChatMessageBean> esponse);
     }
+    interface AddGroupView extends BaseView
+    {
+        void onSuccess(LoginBean esponse);
+    }
     interface  Presenter
     {
         void getchatrecord(String name);
         void  getChatFriendMessage(String name, String fname);
         void  addfriend(String name, String fname);
+        void addgroup(String name,String groupjson);
     }
 }

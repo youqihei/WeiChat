@@ -3,6 +3,8 @@ package weichat.privatecom.wwei.weichat.base;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,7 @@ public abstract class BaseFragment extends Fragment {
     //删除fragment
     public void deleteFragment()
     {
+        Log.e("deletkn e","destory");
         if(getHodingActivity()!=null)
         {
             getHodingActivity().removeFragment();
@@ -63,6 +66,8 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroy()
     {
         super.onDestroy();
+        deleteFragment();
         mActivity = null;
     }
+
 }

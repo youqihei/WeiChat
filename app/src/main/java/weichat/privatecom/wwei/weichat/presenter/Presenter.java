@@ -31,6 +31,7 @@ public class Presenter<V extends BaseView> implements Contract.Presenter{
 
     private Model model;
     private Contract.AddFriendView addFriendView;
+    private Contract.AddGroupView addGroupView;
     private Contract.ChatFriendView chatFriendView;
     private Contract.ChatView chatView;
     private CompositeDisposable mdisposable;
@@ -39,6 +40,10 @@ public class Presenter<V extends BaseView> implements Contract.Presenter{
         if(view instanceof Contract.AddFriendView)
         {
             addFriendView = (Contract.AddFriendView) view;
+        }
+        else if(view instanceof  Contract.AddGroupView)
+        {
+            addGroupView = (Contract.AddGroupView) view;
         }
         else if(view instanceof  Contract.ChatFriendView)
         {
@@ -99,6 +104,22 @@ public class Presenter<V extends BaseView> implements Contract.Presenter{
             @Override
             public void accept(Throwable throwable) throws Exception {
                 addFriendView.onError(throwable);
+            }
+        });
+    }
+
+    @Override
+    public void addgroup(String name, String groupjson) {
+        model.addgroup(name, groupjson).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+                compose(ResponseTransformer.<LoginBean>handleResult()).subscribe(new Consumer<LoginBean>() {
+            @Override
+            public void accept(LoginBean chatBean) throws Exception {
+                addGroupView.onSuccess(chatBean);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                addGroupView.onError(throwable);
             }
         });
     }

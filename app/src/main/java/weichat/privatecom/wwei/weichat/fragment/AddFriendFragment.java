@@ -27,7 +27,12 @@ public class AddFriendFragment extends BaseFragment implements Contract.AddFrien
     Button bt_add;
 
     Presenter addFriendPresenter ;
-
+    public static BaseFragment newInstance()
+    {
+        AddFriendFragment addFriendFragment = new AddFriendFragment();
+        Bundle bundle = new Bundle();
+        return addFriendFragment;
+    }
     //显示进度框
     @Override
     public void showloading()

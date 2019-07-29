@@ -15,7 +15,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //初始化DBFlow
-        FlowManager.init(new FlowConfig.Builder(this).build());
+        FlowManager.init(new FlowConfig.Builder(getApplicationContext()).openDatabasesOnInit(true).build());
         //设置日志显示
         FlowLog.setMinimumLoggingLevel(FlowLog.Level.V);
     }
