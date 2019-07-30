@@ -64,8 +64,14 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
     }
     public  ChatAdapter.ChatCallback chatCallback= new ChatAdapter.ChatCallback() {
         @Override
-        public void startnewFragment(String friendname) {
-            addFragment(ChatFriendFragment.newInstance(friendname));
+        public void startnewFragment(int type,String friendname) {
+            if(type==0)
+            {
+                addFragment(ChatFriendFragment.newInstance(friendname));
+            }
+            else if(type ==1) {
+                addFragment(ChatFriendFragment.newInstance(friendname));
+            }
         }
     };
     //显示进度框
@@ -116,6 +122,7 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
         list.clear();
         int length = 0;
         String content = "";
+        String userid = PreferenceUtil.getUserId(getHodingActivity());
         for(int i=0;i<response.getGroups().size();i++)
         {
             length =  response.getGroups().get(i).getGroupcontent().getContent().size();
@@ -123,8 +130,10 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
             {
                 content =  response.getGroups().get(i).getGroupcontent().getContent().get(length-1);
             }
-            ChatBean chatBean = new ChatBean(response.getGroups().get(i).getGroupphoto(),
-                    response.getGroups().get(i).getGroupname(),content,response.getGroups().get(i).getGroupid());
+            ChatBean chatBean = new ChatBean(0,response.getGroups().get(i).getGroupid(),
+                     userid,"",
+                    response.getGroups().get(i).getGroupphoto(),
+                    response.getGroups().get(i).getGroupname(),content);
              list.add(chatBean);
         }
         for(int i=0;i<response.getUsers().size();i++) {
@@ -133,9 +142,9 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
                 content = response.getUsers().get(i).getUsercontent().get(length - 1);
             }
             String username = response.getUsers().get(i).getUsername();
-            ChatBean chatBean = new ChatBean(response.getUsers().get(i).getUserphoto(),
-                    username, content
-                    , response.getUsers().get(i).getUserid());
+            ChatBean chatBean = new ChatBean(1,"", userid,response.getUsers().get(i).getUserid(),
+                    response.getUsers().get(i).getUserphoto(),
+                    username, content);
             list.add(chatBean);
             FNameTable fNameTable = new FNameTable();
             String username_en  = Pinyin4jUtil.converterToSpell(username);

@@ -46,13 +46,13 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
            holder.constraint_bottom.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   chatcallback.startnewFragment(list.get(position).getTitle());
+                   chatcallback.startnewFragment(list.get(position).getType(),list.get(position).getTitle());
                }
            });
     }
    public interface  ChatCallback
     {
-        void startnewFragment(String friendname);
+        void startnewFragment(int type,String friendname);
     }
     @Override
     public int getItemCount() {

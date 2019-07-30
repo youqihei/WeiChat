@@ -7,18 +7,57 @@ package weichat.privatecom.wwei.weichat.bean;
 public class ChatBean {
     private String imv;
     private String title;
-    private String message_id;
     private String content;
+    private String groupid;
+    private String userid;
+    private String friendid;
+    private int type;
    public ChatBean()
    {}
 
-   public ChatBean(String imv,String title,String content,String message_id)
+   public ChatBean(int type,String groupid,String userid,String friendid,String imv,String title,String content)
    {
+       this.type = type;
+       this.groupid = groupid;
+       this.userid = userid;
+       this.friendid = friendid;
        this.imv = imv;
        this.title = title;
        this.content = content;
-       this.message_id= message_id;
    }
+
+    public String getFriendid() {
+        return friendid;
+    }
+
+    public void setFriendid(String friendid) {
+        this.friendid = friendid;
+    }
+
+    public String getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(String groupid) {
+        this.groupid = groupid;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public String getContent() {
         return content;
     }
@@ -43,11 +82,4 @@ public class ChatBean {
         this.title = title;
     }
 
-    public String getMessage_id() {
-        return message_id;
-    }
-
-    public void setMessage_id(String message_id) {
-        this.message_id = message_id;
-    }
 }

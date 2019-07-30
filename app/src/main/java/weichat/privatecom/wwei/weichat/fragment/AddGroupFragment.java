@@ -74,8 +74,7 @@ public class AddGroupFragment extends BaseFragment implements Contract.AddGroupV
     public void onSuccess(LoginBean response)
     {
         ToastUtil.showToast(getActivity(),"添加群成功");
-        deleteFragment();
-        getHodingActivity().finish();
+        getActivity().finish();
     }
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
