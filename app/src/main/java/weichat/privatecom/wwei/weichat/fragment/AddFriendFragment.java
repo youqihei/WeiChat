@@ -58,6 +58,7 @@ public class AddFriendFragment extends BaseFragment implements Contract.AddFrien
     {
         ToastUtil.showToast(getActivity(),"添加好友成功");
         deleteFragment();
+        getHodingActivity().finish();
     }
     @Override
     protected void initView(View view, Bundle saveInstanceState) {

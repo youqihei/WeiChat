@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:id="@+id/constraint_bottom"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <CheckBox
+        android:id="@+id/addgroup_cb_agree"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dip"
+        android:checked="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/addgroup_check"
+        android:button="@null"
+        />
+
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/photo_huge"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="胡歌"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintLeft_toRightOf="@id/iv_photo"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        />
+
+    <View
+        app:layout_constraintTop_toBottomOf="@+id/tv_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="110dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/font_title_gray"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_bottom"
+        />
+</android.support.constraint.ConstraintLayout>

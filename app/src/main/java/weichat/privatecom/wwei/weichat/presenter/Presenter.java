@@ -109,8 +109,8 @@ public class Presenter<V extends BaseView> implements Contract.Presenter{
     }
 
     @Override
-    public void addgroup(String name, String groupjson) {
-        model.addgroup(name, groupjson).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+    public void addgroup(String name, String userid,String userphoto, String groupjson) {
+        model.addgroup(name, userid,userphoto,groupjson).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
                 compose(ResponseTransformer.<LoginBean>handleResult()).subscribe(new Consumer<LoginBean>() {
             @Override
             public void accept(LoginBean chatBean) throws Exception {

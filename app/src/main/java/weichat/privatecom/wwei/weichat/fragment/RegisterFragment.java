@@ -90,6 +90,9 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
         PreferenceUtil.setLoginStatus(getHodingActivity(),true);
         PreferenceUtil.setUserName(getHodingActivity(),username);
         Intent intent = new Intent(getHodingActivity(),MainActivity.class);
+        PreferenceUtil.setPassWord(getHodingActivity(),response.getPassword());
+        PreferenceUtil.setUserId(getHodingActivity(),response.getUserid());
+        PreferenceUtil.setUserPhoto(getHodingActivity(),response.getUserphoto());
         startActivity(intent);
        getActivity().finish();
     }

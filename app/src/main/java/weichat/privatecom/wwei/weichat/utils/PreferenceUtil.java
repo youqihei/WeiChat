@@ -34,6 +34,27 @@ public class PreferenceUtil {
     public static void setUserName(Context cxt, String value) {
         writeString(cxt, "username", value);
     }
+    public static String getPassWord(Context cxt) {
+        return readString(cxt, "password", "");
+    }
+
+    public static void setPassWord(Context cxt, String value) {
+        writeString(cxt, "password", value);
+    }
+    public static String getUserId(Context cxt) {
+        return readString(cxt, "userid", "");
+    }
+
+    public static void setUserId(Context cxt, String value) {
+        writeString(cxt, "userid", value);
+    }
+    public static String getUserPhoto(Context cxt) {
+        return readString(cxt, "userphoto", "");
+    }
+
+    public static void setUserPhoto(Context cxt, String value) {
+        writeString(cxt, "userphoto", value);
+    }
     public static String readString(Context context, String k, String defV) {
         SharedPreferences preference = context.getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_PRIVATE);
         return preference.getString(k, defV);

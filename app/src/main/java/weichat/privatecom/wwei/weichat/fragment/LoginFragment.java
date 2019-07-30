@@ -108,6 +108,9 @@ public class LoginFragment extends BaseFragment implements LoginContract.View{
         ToastUtil.showToast(getActivity(),"登录成功");
         PreferenceUtil.setLoginStatus(getHodingActivity(),true);
         PreferenceUtil.setUserName(getHodingActivity(),username);
+        PreferenceUtil.setPassWord(getHodingActivity(),response.getPassword());
+        PreferenceUtil.setUserId(getHodingActivity(),response.getUserid());
+        PreferenceUtil.setUserPhoto(getHodingActivity(),response.getUserphoto());
         Intent intent = new Intent(getHodingActivity(),MainActivity.class);
         startActivity(intent);
         getActivity().finish();

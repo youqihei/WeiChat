@@ -29,7 +29,7 @@ public class Model implements Contract.Model {
     }
 
     @Override
-    public Observable<BaseObjectBean<LoginBean>> addgroup(String name, String groupjson) {
-        return NetManager.getInstance().getRetrofitServer().addgroup(name, groupjson);
+    public Observable<BaseObjectBean<LoginBean>> addgroup(String name, String userid,String userphoto,String groupjson) {
+        return NetManager.getInstance().getRetrofitServer().addgroup(name,userid ,userphoto,groupjson);
     }
 }

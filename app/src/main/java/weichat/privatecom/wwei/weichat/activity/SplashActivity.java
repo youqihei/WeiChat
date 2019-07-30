@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import butterknife.ButterKnife;
 import weichat.privatecom.wwei.weichat.MainActivity;
@@ -47,7 +51,6 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
         timer.schedule(task, 500);
-
     }
 
 

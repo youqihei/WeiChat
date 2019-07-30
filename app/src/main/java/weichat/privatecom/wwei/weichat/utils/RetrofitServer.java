@@ -33,5 +33,5 @@ public interface RetrofitServer {
  Observable<BaseObjectBean<ChatBean>> addfriend(@Field("username") String name, @Field("friendname") String fname);
  @FormUrlEncoded
  @POST("/WeiChatWeb/AddGroup")
- Observable<BaseObjectBean<LoginBean>> addgroup(@Field("username") String name, @Field("grouplist") String groupjson);
+ Observable<BaseObjectBean<LoginBean>> addgroup(@Field("username") String name,@Field("userid") String userid,@Field("userphoto") String userphoto, @Field("grouplist") String groupjson);
 }
