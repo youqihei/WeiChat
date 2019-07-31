@@ -24,10 +24,13 @@ public interface RetrofitServer {
     Observable<BaseObjectBean<RegisterBean>> register(@Field("name") String name, @Field("pwd") String password, @Field("photo") String photo);
  @FormUrlEncoded
  @POST("/WeiChatWeb/GetChatRecord")
- Observable<BaseObjectBean<ChatRecordBean>> getchatrecord(@Field("name") String name);
+ Observable<BaseObjectBean<ChatRecordBean>> getchatrecord(@Field("userid") String userid);
  @FormUrlEncoded
  @POST("/WeiChatWeb/ChatFriendMes")
- Observable<BaseObjectBean<List<ChatMessageBean>>> getChatFriendMessage(@Field("username") String name, @Field("friendname") String fname);
+ Observable<BaseObjectBean<List<ChatMessageBean>>> getChatFriendMessage(@Field("userid") String userid, @Field("friendid") String friendid);
+ @FormUrlEncoded
+ @POST("/WeiChatWeb/ChatGroupMes")
+ Observable<BaseObjectBean<List<ChatMessageBean>>> getChatGroupMessage(@Field("userid") String userid, @Field("groupid") String groupid);
  @FormUrlEncoded
  @POST("/WeiChatWeb/SearchUser")
  Observable<BaseObjectBean<ChatBean>> addfriend(@Field("username") String name, @Field("friendname") String fname);

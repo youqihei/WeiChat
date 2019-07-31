@@ -5,8 +5,16 @@ public class ChatMessageBean {
     private String title;
     private String message_id;
     private String message;
+    private String groupid;
     private boolean isMine;
 
+    public String getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(String groupid) {
+        this.groupid = groupid;
+    }
 
     public String getImv() {
         return imv;

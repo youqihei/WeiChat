@@ -33,6 +33,7 @@ public class Presenter<V extends BaseView> implements Contract.Presenter{
     private Contract.AddFriendView addFriendView;
     private Contract.AddGroupView addGroupView;
     private Contract.ChatFriendView chatFriendView;
+    private Contract.ChatGroupView chatGroupView;
     private Contract.ChatView chatView;
     private CompositeDisposable mdisposable;
     public Presenter( BaseView view )
@@ -44,6 +45,10 @@ public class Presenter<V extends BaseView> implements Contract.Presenter{
         else if(view instanceof  Contract.AddGroupView)
         {
             addGroupView = (Contract.AddGroupView) view;
+        }
+        else if(view instanceof  Contract.ChatGroupView)
+        {
+            chatGroupView = (Contract.ChatGroupView) view;
         }
         else if(view instanceof  Contract.ChatFriendView)
         {
@@ -61,8 +66,8 @@ public class Presenter<V extends BaseView> implements Contract.Presenter{
         return mView!=null?true:false;
     }
     @Override
-    public void getchatrecord(String name) {
-        model.getchatrecord(name).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+    public void getchatrecord(String id) {
+        model.getchatrecord(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
                 compose(ResponseTransformer.<ChatRecordBean>handleResult()).subscribe(new Consumer<ChatRecordBean>() {
             @Override
             public void accept(ChatRecordBean chatRecordBean) throws Exception {
@@ -77,8 +82,8 @@ public class Presenter<V extends BaseView> implements Contract.Presenter{
     }
 
     @Override
-    public void getChatFriendMessage(String name, String fname) {
-        model.getChatFriendMessage(name, fname).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+    public void getChatFriendMessage(String userid, String friendid) {
+        model.getChatFriendMessage(userid, friendid).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
                 compose(ResponseTransformer.<List<ChatMessageBean>>handleResult()).subscribe(new Consumer<List<ChatMessageBean>>() {
             @Override
             public void accept(List<ChatMessageBean> chatMessageBeans) throws Exception {
@@ -88,6 +93,22 @@ public class Presenter<V extends BaseView> implements Contract.Presenter{
             @Override
             public void accept(Throwable throwable) throws Exception {
                 chatFriendView.onError(throwable);
+            }
+        });
+    }
+
+    @Override
+    public void getChatGroupMessage(String userid, String groupid) {
+        model.getChatGroupMessage(userid,groupid).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+                compose(ResponseTransformer.<List<ChatMessageBean>>handleResult()).subscribe(new Consumer<List<ChatMessageBean>>() {
+            @Override
+            public void accept(List<ChatMessageBean> chatMessageBeans) throws Exception {
+                chatGroupView.onSuccess(chatMessageBeans);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                chatGroupView.onError(throwable);
             }
         });
     }

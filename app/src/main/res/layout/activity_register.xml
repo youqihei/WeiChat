@@ -2,7 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    >
 
   <TextView
       android:id="@+id/tv_register"
@@ -36,13 +38,30 @@
         <EditText
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="3"
             android:id="@+id/et_username"
             android:layout_height="wrap_content"
             android:background="@null"
             android:imeOptions="actionDone"
             android:maxLines="1"
             />
+        <LinearLayout
+            android:id="@+id/ll_choose"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
+            android:layout_height="match_parent"
+            android:background="@drawable/gray_rectangle"
+            android:layout_marginBottom="1dp"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/iv_choose"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:background="@drawable/mis_asv"
+                />
+        </LinearLayout>
     </LinearLayout>
     <ImageView
         app:layout_constraintTop_toBottomOf="@id/ll_username"

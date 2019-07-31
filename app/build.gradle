@@ -67,4 +67,5 @@ dependencies {
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbFlow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-rx:${dbFlow_version}"
     implementation files('libs/pinyin4j-2.5.0.jar')
+      compile project(':multi-image-selector')
 }

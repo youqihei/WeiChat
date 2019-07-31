@@ -5,8 +5,8 @@ public class ChatSendBean {
     private String username;
     private String user_id;
     private String content;
-    private String friendname;
-    private String groupname;
+    private String friendid;
+    private String groupid;
     private String require;
 
     public String getImv() {
@@ -41,20 +41,21 @@ public class ChatSendBean {
     public void setContent(String content) {
         this.content = content;
     }
-    public String getFriendname() {
-        return friendname;
+
+    public String getFriendid() {
+        return friendid;
     }
 
-    public void setFriendname(String friendname) {
-        this.friendname = friendname;
+    public void setFriendid(String friendid) {
+        this.friendid = friendid;
     }
 
-    public String getGroupname() {
-        return groupname;
+    public String getGroupid() {
+        return groupid;
     }
 
-    public void setGroupname(String groupname) {
-        this.groupname = groupname;
+    public void setGroupid(String groupid) {
+        this.groupid = groupid;
     }
 
     public String getRequire() {

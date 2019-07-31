@@ -15,6 +15,7 @@ public interface Contract {
     {
         Observable<BaseObjectBean<ChatRecordBean>> getchatrecord(String name);
         Observable<BaseObjectBean<List<ChatMessageBean>>> getChatFriendMessage(String name, String fname);
+        Observable<BaseObjectBean<List<ChatMessageBean>>>   getChatGroupMessage(String userid, String groupid);
         Observable<BaseObjectBean<ChatBean>> addfriend(String name, String fname);
         Observable<BaseObjectBean<LoginBean>> addgroup(String name,  String userid,String userphoto,String groupjson);
     }
@@ -35,6 +36,10 @@ public interface Contract {
     {
         void onSuccess(List<ChatMessageBean> esponse);
     }
+    interface ChatGroupView extends BaseView
+    {
+        void onSuccess(List<ChatMessageBean> response);
+    }
     interface AddGroupView extends BaseView
     {
         void onSuccess(LoginBean esponse);
@@ -42,7 +47,8 @@ public interface Contract {
     interface  Presenter
     {
         void getchatrecord(String name);
-        void  getChatFriendMessage(String name, String fname);
+        void  getChatFriendMessage(String userid, String friendid);
+        void  getChatGroupMessage(String userid, String groupid);
         void  addfriend(String name, String fname);
         void addgroup(String name, String userid,String userphoto,String groupjson);
     }

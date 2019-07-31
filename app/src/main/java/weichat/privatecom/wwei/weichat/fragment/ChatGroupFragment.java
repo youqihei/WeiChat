@@ -39,7 +39,7 @@ import weichat.privatecom.wwei.weichat.utils.PreferenceUtil;
 import weichat.privatecom.wwei.weichat.utils.ServiceManager;
 import weichat.privatecom.wwei.weichat.utils.ToastUtil;
 
-public class ChatGroupFragment extends BaseFragment implements Contract.ChatFriendView {
+public class ChatGroupFragment extends BaseFragment implements Contract.ChatGroupView {
 
 @BindView(R.id.tv_title)
     TextView tv_title;
@@ -53,15 +53,17 @@ public class ChatGroupFragment extends BaseFragment implements Contract.ChatFrie
 private int count;
 private List<ChatMessageBean> list = new ArrayList<>();
 
-private Presenter chatfriendPresenter;
+private Presenter chatgroupPresenter;
 private static ChatGroupFragment chatGroupFragment;
-private String friendname = "";
+    private String title = "好友";
+    private String groupid = "";
 
-public static BaseFragment newInstance(String friendname) {
+public static BaseFragment newInstance(String title,String groupid) {
         if (chatGroupFragment == null) {
             chatGroupFragment = new ChatGroupFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("chatgroup_fragment", friendname);
+            bundle.putSerializable("chattitle_fragment",title);
+            bundle.putSerializable("chatgroupid_fragment",groupid);
             chatGroupFragment.setArguments(bundle);
         }
         return chatGroupFragment;
@@ -71,13 +73,14 @@ public static BaseFragment newInstance(String friendname) {
 public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         if (null != getArguments()) {
-        friendname = (String) getArguments().getSerializable("chatgroup_fragment");
+            title = (String) getArguments().getSerializable("chattitle_fragment");
+            groupid = (String) getArguments().getSerializable("chatgroupid_fragment");
         }
         }
 
 @Override
 protected void initView(View view, Bundle saveInstanceState) {
-        tv_title.setText(friendname);
+        tv_title.setText(title);
         msgAdapter = new MsgAdapter(list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         //linearLayoutManager.setStackFromEnd(true);
@@ -123,7 +126,7 @@ private class ChatMessageReceiver extends BroadcastReceiver {
         String message = intent.getStringExtra("message_friend");
         ChatMessageBean chatMessageBean = JsonTool.getPerson(message, ChatMessageBean.class);
         if (chatMessageBean != null) {
-            if(chatMessageBean.getTitle().equals(friendname)) {
+            if(chatMessageBean.getGroupid().equals(groupid)) {
                 list.add(chatMessageBean);
                 msgAdapter.notifyItemChanged(list.size() - 1);
                 recyclerView.scrollToPosition(msgAdapter.getItemCount() - 1);
@@ -152,12 +155,11 @@ private class ChatMessageReceiver extends BroadcastReceiver {
                 }
                 ChatSendBean chatSendBean = new ChatSendBean();
                 chatSendBean.setContent(input.getText().toString());
-                chatSendBean.setGroupname("");
-                chatSendBean.setFriendname(friendname);
-                chatSendBean.setRequire("person");
+                chatSendBean.setGroupid(groupid);
+                chatSendBean.setFriendid("");
+                chatSendBean.setRequire("group");
                 chatSendBean.setImv("");
-                chatSendBean.setImv("");
-                chatSendBean.setUser_id("");
+                chatSendBean.setUser_id(PreferenceUtil.getUserId(getHodingActivity()));
                 chatSendBean.setUsername(PreferenceUtil.getUserName(getHodingActivity()));
                 Gson gson = new Gson();
                 String gsonstring = gson.toJson(chatSendBean);
@@ -166,7 +168,8 @@ private class ChatMessageReceiver extends BroadcastReceiver {
                 ChatMessageBean chatMessageBean = new ChatMessageBean();
                 chatMessageBean.setImv("");
                 chatMessageBean.setMessage(input.getText().toString());
-                chatMessageBean.setMessage_id("");
+                chatMessageBean.setMessage_id(PreferenceUtil.getUserId(getHodingActivity()));
+                chatMessageBean.setGroupid(groupid);
                 chatMessageBean.setMine(true);
                 chatMessageBean.setTitle(PreferenceUtil.getUserName(getHodingActivity()));
                 list.add(chatMessageBean);
@@ -185,8 +188,8 @@ private class ChatMessageReceiver extends BroadcastReceiver {
     }
 
     private void initData() {
-        chatfriendPresenter = new Presenter(this);
-        chatfriendPresenter.getChatFriendMessage(PreferenceUtil.getUserName(getHodingActivity()), friendname);
+        chatgroupPresenter = new Presenter(this);
+        chatgroupPresenter.getChatGroupMessage(PreferenceUtil.getUserId(getHodingActivity()),groupid);
         doRegisterReceiver();
         //   ListenerPan();
     }
@@ -210,10 +213,10 @@ private class ChatMessageReceiver extends BroadcastReceiver {
             }
         });
     }
-    private ChatFriendFragment.ChatMessageReceiver chatMessageReceiver;
+    private ChatMessageReceiver chatMessageReceiver;
     private void doRegisterReceiver()
     {
-        chatMessageReceiver = new ChatFriendFragment.ChatMessageReceiver();
+        chatMessageReceiver = new ChatMessageReceiver();
         IntentFilter filter = new IntentFilter("weichat.private.wei.weichat.content");
         getHodingActivity().registerReceiver(chatMessageReceiver, filter);
     }
@@ -225,7 +228,7 @@ private class ChatMessageReceiver extends BroadcastReceiver {
     @Override
     public void onDestroy() {
         getHodingActivity().unregisterReceiver(chatMessageReceiver);
-        chatFriendFragment = null;
+        chatGroupFragment = null;
         super.onDestroy();
         chatMessageReceiver = null;
     }

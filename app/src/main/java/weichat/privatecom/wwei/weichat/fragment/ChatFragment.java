@@ -58,19 +58,20 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
 
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
+        doRegisterReceiver();
         chatAdapter = new ChatAdapter(getHodingActivity(),list,chatCallback);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(chatAdapter);
     }
     public  ChatAdapter.ChatCallback chatCallback= new ChatAdapter.ChatCallback() {
         @Override
-        public void startnewFragment(int type,String friendname) {
+        public void startnewFragment(int type,String title,String groupid,String friendid) {
             if(type==0)
             {
-                addFragment(ChatFriendFragment.newInstance(friendname));
+                addFragment(ChatGroupFragment.newInstance(title,groupid));
             }
             else if(type ==1) {
-                addFragment(ChatFriendFragment.newInstance(friendname));
+                addFragment(ChatFriendFragment.newInstance(title,friendid));
             }
         }
     };
@@ -176,7 +177,7 @@ public class ChatFragment extends BaseFragment implements Contract.ChatView {
     private void initData()
     {
         chatRecordPresenter = new Presenter(this);
-        chatRecordPresenter.getchatrecord(PreferenceUtil.getUserName(getHodingActivity()));
+        chatRecordPresenter.getchatrecord(PreferenceUtil.getUserId(getHodingActivity()));
     }
 
     @Override

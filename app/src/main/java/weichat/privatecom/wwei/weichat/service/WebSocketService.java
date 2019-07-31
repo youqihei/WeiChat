@@ -24,7 +24,7 @@ import weichat.privatecom.wwei.weichat.utils.PreferenceUtil;
 public class WebSocketService extends Service{
     private JWebSocketClientBinder mBinder = new JWebSocketClientBinder();
     private static  boolean iscontinued = true;
-    URI uri = URI.create("ws://192.168.0.108:8080/WeiChatWeb/serverWebsocket");
+    URI uri = URI.create("ws://192.168.0.178:8080/WeiChatWeb/serverWebsocket");
     public  class  JWebSocketClientBinder extends Binder{
         public WebSocketService getService()
         {
@@ -136,9 +136,9 @@ public class WebSocketService extends Service{
     @Override
     public IBinder onBind(Intent intent) {
         try {
-            String username = PreferenceUtil.getUserName(getBaseContext());
+            String userid = PreferenceUtil.getUserId(getBaseContext());
             iscontinued = true;
-            uri = URI.create("ws://192.168.0.108:8080/WeiChatWeb/serverWebsocket/"+username);
+            uri = URI.create("ws://192.168.0.178:8080/WeiChatWeb/serverWebsocket/"+userid);
            initSocketClient();
             client.connectBlocking();
             mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测

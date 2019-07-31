@@ -14,13 +14,18 @@ import weichat.privatecom.wwei.weichat.utils.NetManager;
 
 public class Model implements Contract.Model {
     @Override
-    public Observable<BaseObjectBean<ChatRecordBean>> getchatrecord(String name) {
-        return NetManager.getInstance().getRetrofitServer().getchatrecord(name);
+    public Observable<BaseObjectBean<ChatRecordBean>> getchatrecord(String id) {
+        return NetManager.getInstance().getRetrofitServer().getchatrecord(id);
     }
 
     @Override
-    public Observable<BaseObjectBean<List<ChatMessageBean>>> getChatFriendMessage(String name, String fname) {
-        return NetManager.getInstance().getRetrofitServer().getChatFriendMessage(name, fname);
+    public Observable<BaseObjectBean<List<ChatMessageBean>>> getChatFriendMessage(String userid, String friendid) {
+        return NetManager.getInstance().getRetrofitServer().getChatFriendMessage(userid, friendid);
+    }
+
+    @Override
+    public Observable<BaseObjectBean<List<ChatMessageBean>>> getChatGroupMessage(String userid, String groupid) {
+        return NetManager.getInstance().getRetrofitServer().getChatGroupMessage(userid, groupid);
     }
 
     @Override

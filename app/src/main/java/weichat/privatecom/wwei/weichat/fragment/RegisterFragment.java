@@ -1,13 +1,22 @@
 package weichat.privatecom.wwei.weichat.fragment;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import interceptmessage.privatecom.wwei.multi_image_selector.MultiImageSelector;
 import weichat.privatecom.wwei.weichat.MainActivity;
 import weichat.privatecom.wwei.weichat.R;
 import weichat.privatecom.wwei.weichat.activity.LoginActivity;
@@ -101,11 +110,15 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
     protected int getLayoutId() {
         return R.layout.activity_register;
     }
-    @OnClick({R.id.btn_register})
+    @OnClick({R.id.btn_register,R.id.ll_choose,R.id.iv_choose})
     public  void onClick(View view)
     {
         switch (view.getId())
         {
+            case R.id.ll_choose:
+            case R.id.iv_choose:
+                pickImage();
+                break;
             case R.id.btn_register:
                 username = et_username.getText().toString();
                 password = et_ps.getText().toString();
@@ -132,6 +145,34 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
                 }
                 registerPresenter.register(username,password,"");
                 break;
+        }
+    }
+    protected static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
+    private ArrayList<String> mSelectPath;
+    private static final int REQUEST_IMAGE = 2;
+    private void pickImage()
+    {
+        if(Build.VERSION.SDK_INT>Build.VERSION_CODES.JELLY_BEAN// Permission was added in API Level 16
+            && ActivityCompat.checkSelfPermission(getHodingActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(getHodingActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_STORAGE_READ_ACCESS_PERMISSION);
+        }else
+        {
+            MultiImageSelector selector = MultiImageSelector.newInstance();
+            selector.origin(mSelectPath);
+            selector.start(this, REQUEST_IMAGE);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        if(requestCode == REQUEST_STORAGE_READ_ACCESS_PERMISSION){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                pickImage();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
     @Override

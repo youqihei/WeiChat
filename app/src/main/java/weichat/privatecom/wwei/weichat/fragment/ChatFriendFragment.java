@@ -55,13 +55,15 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
 
     private Presenter chatfriendPresenter;
     private static ChatFriendFragment chatFriendFragment;
-    private String friendname = "";
+    private String title = "好友";
+    private String friendid = "";
 
-    public static BaseFragment newInstance(String friendname) {
+    public static BaseFragment newInstance(String title,String friendid) {
         if (chatFriendFragment == null) {
             chatFriendFragment = new ChatFriendFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("chatfriend_fragment", friendname);
+            bundle.putSerializable("chattitle_fragment",title);
+            bundle.putSerializable("chatfriendid_fragment",friendid);
             chatFriendFragment.setArguments(bundle);
         }
         return chatFriendFragment;
@@ -71,13 +73,14 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         if (null != getArguments()) {
-            friendname = (String) getArguments().getSerializable("chatfriend_fragment");
+            title = (String) getArguments().getSerializable("chattitle_fragment");
+            friendid = (String) getArguments().getSerializable("chatfriendid_fragment");
         }
     }
 
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
-        tv_title.setText(friendname);
+        tv_title.setText(title);
         msgAdapter = new MsgAdapter(list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         //linearLayoutManager.setStackFromEnd(true);
@@ -123,7 +126,7 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
             String message = intent.getStringExtra("message_friend");
             ChatMessageBean chatMessageBean = JsonTool.getPerson(message, ChatMessageBean.class);
             if (chatMessageBean != null) {
-                if(chatMessageBean.getTitle().equals(friendname)) {
+                if(chatMessageBean.getMessage_id().equals(friendid)) {
                     list.add(chatMessageBean);
                     msgAdapter.notifyItemChanged(list.size() - 1);
                     recyclerView.scrollToPosition(msgAdapter.getItemCount() - 1);
@@ -150,14 +153,14 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
                     ToastUtil.showToast(getContext(), "发送内容不能为空");
                     return;
                 }
+                String userid  = PreferenceUtil.getUserId(getHodingActivity());
                 ChatSendBean chatSendBean = new ChatSendBean();
                 chatSendBean.setContent(input.getText().toString());
-                chatSendBean.setGroupname("");
-                chatSendBean.setFriendname(friendname);
+                chatSendBean.setGroupid("");
+                chatSendBean.setFriendid(friendid);
                 chatSendBean.setRequire("person");
                 chatSendBean.setImv("");
-                chatSendBean.setImv("");
-                chatSendBean.setUser_id("");
+                chatSendBean.setUser_id(userid);
                 chatSendBean.setUsername(PreferenceUtil.getUserName(getHodingActivity()));
                 Gson gson = new Gson();
                 String gsonstring = gson.toJson(chatSendBean);
@@ -166,7 +169,8 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
                 ChatMessageBean chatMessageBean = new ChatMessageBean();
                 chatMessageBean.setImv("");
                 chatMessageBean.setMessage(input.getText().toString());
-                chatMessageBean.setMessage_id("");
+                chatMessageBean.setMessage_id(userid);
+                chatMessageBean.setGroupid("");
                 chatMessageBean.setMine(true);
                 chatMessageBean.setTitle(PreferenceUtil.getUserName(getHodingActivity()));
                 list.add(chatMessageBean);
@@ -186,7 +190,7 @@ public class ChatFriendFragment extends BaseFragment implements Contract.ChatFri
 
     private void initData() {
         chatfriendPresenter = new Presenter(this);
-        chatfriendPresenter.getChatFriendMessage(PreferenceUtil.getUserName(getHodingActivity()), friendname);
+        chatfriendPresenter.getChatFriendMessage(PreferenceUtil.getUserId(getHodingActivity()), friendid);
         doRegisterReceiver();
      //   ListenerPan();
     }
