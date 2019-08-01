@@ -7,12 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class MultiImageSelectorFragment extends Fragment {
+import interceptmessage.privatecom.wwei.multi_image_selector.adapter.ImageGridAdapter;
+import interceptmessage.privatecom.wwei.multi_image_selector.bean.Image;
 
+public class MultiImageSelectorFragment extends Fragment {
+    public static final String TAG = "MultiImageSelectorFragment";
     // Single choice
     public static final int MODE_SINGLE = 0;
     // Multi choice
@@ -29,6 +35,8 @@ public class MultiImageSelectorFragment extends Fragment {
     private Callback mCallback;
     // image result data set
     private ArrayList<String> resultList = new ArrayList<>();
+    private ImageGridAdapter mImageAdapter;
+    private GridView mGridView;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -51,10 +59,56 @@ public class MultiImageSelectorFragment extends Fragment {
             if(tmp != null && tmp.size()>0) {
                 resultList = tmp;
             }
-
         }
+        mImageAdapter = new ImageGridAdapter(getActivity(),true, 3);
+        mGridView = (GridView) view.findViewById(R.id.grid);
+        mGridView.setAdapter(mImageAdapter);
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    if (i == 0) {
+                        showCameraAction();
+                    } else {
+                        Image image = (Image) adapterView.getAdapter().getItem(i);
+                        selectImageFromGrid(image, mode);
+                    }
+
+            }
+        });
+    }
+    /**
+     * Open camera
+     */
+    private void showCameraAction() {
 
     }
+    /**
+     * notify callback
+     * @param image image data
+     */
+    private void selectImageFromGrid(Image image, int mode) {
+        if (image != null) {
+            if(mode == MODE_MULTI) {
+                if (resultList.contains(image.path)) {
+                    resultList.remove(image.path);
+                    if (mCallback != null) {
+                        mCallback.onImageUnselected(image.path);
+                    }
+                } else {
+                    if(9 == resultList.size()){
+                        Toast.makeText(getActivity(),"已经达到最高选择数量", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    resultList.add(image.path);
+                    if (mCallback != null) {
+                        mCallback.onImageSelected(image.path);
+                    }
+                }
+                mImageAdapter.select(image);
+            }
+        }
+    }
+
     public interface Callback{
         void onImageSelected(String path);
         void onImageUnselected(String path);
