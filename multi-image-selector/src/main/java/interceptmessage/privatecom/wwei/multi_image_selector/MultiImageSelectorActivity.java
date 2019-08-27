@@ -2,6 +2,7 @@ package interceptmessage.privatecom.wwei.multi_image_selector;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -98,17 +99,31 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 
     @Override
     public void onImageSelected(String path) {
-
+        if(!resultList.contains(path)) {
+            resultList.add(path);
+        }
+        updateDoneText(resultList);
     }
 
     @Override
     public void onImageUnselected(String path) {
-
+        if(resultList.contains(path)){
+            resultList.remove(path);
+        }
+        updateDoneText(resultList);
     }
 
     @Override
     public void onCameraShot(File imageFile) {
-
+        if(imageFile != null) {
+            // notify system the image has change
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));
+            Intent data = new Intent();
+            resultList.add(imageFile.getAbsolutePath());
+            data.putStringArrayListExtra(EXTRA_RESULT, resultList);
+            setResult(RESULT_OK, data);
+            finish();
+        }
     }
 
     private void updateDoneText(ArrayList<String> resultList){

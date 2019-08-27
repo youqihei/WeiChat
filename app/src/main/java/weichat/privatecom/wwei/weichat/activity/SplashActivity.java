@@ -51,8 +51,66 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
         timer.schedule(task, 500);
+        Log.e("result",""+compareVersion("1.0001.002","1.0001"));
+    }
+    public int compareVersion(String version1, String version2) {
+        int result = 0;
+        String s1 = "";
+        String s2 = "";
+        int a1 = 0;
+        int a2 = 0;
+        //  String[] result =
+        String[] c1 = version1.split("\\.");
+        String[] c2 = version2.split("\\.");
+        int maxlength = c1.length;
+        int i=0;
+        int j=0;
+        for(i=0,j=0;i<c1.length&&j<c2.length;i++,j++)
+        {
+            a1 = Integer.parseInt(c1[i]);
+            a2 = Integer.parseInt(c2[j]);
+            if(a1==a2)
+            {
+                continue;
+            }
+            else if(a1>a2)
+            {
+                result = 1;
+                break;
+            }
+            else
+            {
+                result = -1;
+                break;
+            }
+        }
+        if(i<c2.length)
+        {
+            maxlength = c2.length;
+            for(i=c1.length;i<maxlength;i++)
+            {
+                a2 = Integer.parseInt(c2[i]);
+                if(a2>0)
+                {
+                    result = -1;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for(i=j;i<maxlength;i++)
+            {
+                a1 = Integer.parseInt(c1[i]);
+                if(a1>0)
+                {
+                    result = 1;
+                    break;
+                }
+            }
+        }
+     return result;
 
     }
-
 
 }
